@@ -1,3 +1,5 @@
+.idea
+.idea/*
 .DS_Store
 .svn
 log/*.log
