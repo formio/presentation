@@ -40,8 +40,8 @@
     <div class="slides">
         <section>
             <p>
-                <img class="trans-image" style="width: 4em;margin-bottom:-0.9em;" src="images/angularjs-logo-trans.png"/>
-                <span style="margin-top:-1em;"><strong style="font-family: 'Comfortaa', cursive; font-size:3em;">+ <span style="color:#3071a9">form</span><span style="color:#eee;">.</span><span style="color:#449d44">io</span></strong></span>
+                <!--<img class="trans-image" style="width: 4em;margin-bottom:-0.9em;" src="images/angularjs-logo-trans.png"/>-->
+                <span style="margin-top:-1em;"><strong style="font-family: 'Comfortaa', cursive; font-size:3em;"><span style="color:#3071a9">form</span><span style="color:#eee;">.</span><span style="color:#449d44">io</span></strong></span>
             </p>
 
             <h3>Building a next-gen web application</h3>
@@ -82,7 +82,7 @@
         <section>
             <h2>Web 2.0</h2>
             <small>The rise of the Content Management System</small><br/>
-            <img class="trans-image" style="width: 20em;" src="images/cms-web2.svg" />
+            <img class="trans-image" style="height: 14em;" src="images/cms-web2.svg" />
         </section>
         <section>
             <h2>Web 3.0</h2>
@@ -123,7 +123,7 @@
         </section>
         <section>
             <strong style="font-family: 'Comfortaa', cursive; font-size:2em;"><span style="color:#3071a9">form</span><span style="color:#eee;">.</span><span style="color:#449d44">io</span></strong>
-            <p>automatically creates the API docuentation</p>
+            <p>automatically creates the API documentation</p>
             <img class="trans-image" style="height:13em" src="images/formio-api-spec.jpg" />
         </section>
         <section>
@@ -136,19 +136,185 @@
             <strong class="fragment" style="font-family: 'Comfortaa', cursive; font-size:2em; color:#eee;">&lt;<span style="color:#3071a9">form</span><span style="color:#eee;"></span><span style="color:#449d44">io</span> src="..."&gt;</strong>
         </section>
         <section>
+            <p>Application integration with <strong style="font-family: 'Comfortaa', cursive;"><span style="color:#3071a9">form</span><span style="color:#eee;">.</span><span style="color:#449d44">io</span></strong></p>
+            <img class="trans-image" src="images/formio-appembed.jpg" />
+        </section>
+        <section>
             <p>The <strong style="font-family: 'Comfortaa', cursive;"><span style="color:#3071a9">form</span><span style="color:#eee;">.</span><span style="color:#449d44">io</span></strong> solution</p>
             <img class="trans-image" src="images/formio-web3.svg" />
         </section>
         <section>
-            <p>Now let's build something!</p>
+            <p>Now let's build something with <strong style="font-family: 'Comfortaa', cursive;"><span style="color:#3071a9">form</span><span style="color:#eee;">.</span><span style="color:#449d44">io</span></strong>!</p>
         </section>
-    </div>
+        <!--
+        <section>
+            <h3>Bootstrapping the app with Yeoman</h3>
+            <img width="300px" src="images/yeoman-logo.png" />
+            <p>http://yeoman.io/</p>
+            <pre class="fragment"><code>mkdir movieapp</code><code class="fragment">cd movieapp</code><code class="fragment">npm install -g grunt-cli bower yo generator-karma generator-angular</code><code class="fragment">yo angular</code></pre>
+        </section>
+        <section>
+            <h3>Install necessary dependencies</h3>
+            <pre class="fragment"><code data-trim>
+bower install --save angular-ui-router
+bower install --save angular-ui-router
+bower install --save angular-moment
+bower install --save angular-ui-select
+bower install --save jquery.maskedinput
+bower install --save font-awesome
+            </code></pre>
+            <pre class="fragment"><code data-trim>
+grunt build
+            </code></pre>
+            <pre class="fragment">This will eventually be replaced with... <code>bower install --save formio</code></pre>
+        </section>
+        <section>
+            <p>Add <strong style="font-family: 'Comfortaa', cursive;"><span style="color:#3071a9">form</span><span style="color:#eee;">.</span><span style="color:#449d44">io</span></strong> to your app.</p>
+            <pre class="fragment fullwidth"><strong>app/index.html</strong><code data-trim>
+<script src="http://form.io/bower_components/formio/dist/formio.min.js"></script>
+            </code></pre>
+            <pre class="fragment">This will eventually be replaced with... <code>bower install --save formio</code></pre>
+        </section>
+        <section>
+            <p>Add formio to your application dependencies</p>
+            <pre class="fullwidth"><strong>app/scripts/app.js</strong><code data-trim>
+  .module('movieappApp', [
+    'ngAnimate',~
+    'ngSanitize',
++   'ui.select',
++   'ui.router',
++   'angularMoment',
++   'formio'
+  ])
+            </code></pre>
+        </section>
+        <section>
+            <p>Set the <strong style="font-family: 'Comfortaa', cursive;"><span style="color:#3071a9">form</span><span style="color:#eee;">.</span><span style="color:#449d44">io</span></strong> <strong>BaseURL</strong></p>
+            <pre class="fragment fullwidth"><strong>app/scripts/app.js</strong><code>   .config([
++    '$stateProvider',
++    '$urlRouterProvider',
++    'FormioProvider',
++    function (
++        $stateProvider,
++        $urlRouterProvider,
++        FormioProvider
++    ) {
++        FormioProvider.setBaseUrl('http://form.io/app/api');
+            ...
+            ...</code></pre>
+        </section>
+        <section>
+            <p>Register your application paths</p>
+            <small><pre class="fragment fullwidth"><strong>app/scripts/app.js</strong><code>
+$stateProvider
+    .state('home', { url: '/?', templateUrl: 'views/main.html'})</code><code class="fragment">
+    .state('auth', { abstract: true,  url: '/auth', templateUrl: 'views/user/auth.html' })
+    .state('auth.login', { url: '/login',  parent: 'auth',  templateUrl: 'views/user/login.html' })
+    .state('auth.register', { url: '/register', parent: 'auth', templateUrl: 'views/user/register.html' })</code><code class="fragment">
+    .state('movieIndex', { url: '/movie', templateUrl: 'views/movie/index.html'});
+    .state('createMovie', { url: '/create/movie', templateUrl: 'views/movie/create.html' })
+    .state('movie', { abstract: true, url: '/movie/:movieId', templateUrl: 'views/movie/movie.html' })
+    .state('movie.view', { url: '/', parent: 'movie', templateUrl: 'views/movie/view.html' })
+    .state('movie.edit', { url: '/edit', parent: 'movie', templateUrl: 'views/movie/edit.html' })
+    .state('movie.delete', { url: '/delete', parent: 'movie', templateUrl: 'views/movie/delete.html' })</code></pre></small>
+            <p class="fragment">+ create the states for <strong>director</strong> modeled after movie paths.</p>
+        </section>
+        <section>
+            <p>Add your forms to the global $rootScope</p>
+            <small><pre class="fragment fullwidth"><strong>app/scripts/app.js</strong><code data-trim>
+.run([
+    '$state',
+    '$rootScope',
+    'Formio',
+    function($state, $rootScope, Formio) {
+        $rootScope.userLoginForm = 'http://movieapp.form.io/app/api/user/login';
+        $rootScope.userRegisterForm = 'http://movieapp.form.io/app/api/user/register';
+        $rootScope.movieForm = 'http://movieapp.form.io/app/api/movie';
+        $rootScope.directorForm = 'http://movieapp.form.io/app/api/director';
+            </code></pre></small>
+        </section>
+        <section>
+            <p>Create the view files for your app</p>
+            <p>Should have the following structure...</p>
+            <small><pre class="fullwidth"><code>
+- app
+    - views
+        - main.html
+        - youtube.html
+        - user
+            - auth.html
+            - login.html
+            - register.html
+        - movie
+            - index.html
+            - create.html
+            - edit.html
+            - delete.html
+            - view.html
+            - movie.html
+        - director
+            - index.html
+            - create.html
+            - edit.html
+            - delete.html
+            - view.html
+            - director.html</code></pre></small>
+        </section>
+        <section>
+            <p>Hook up <strong style="font-family: 'Comfortaa', cursive;"><span style="color:#3071a9">form</span><span style="color:#eee;">.</span><span style="color:#449d44">io</span></strong></p>
+            <pre class="fragment fullwidth">app/views/user/login.html<code><formio src="userLoginForm"></formio></code></pre>
+            <pre class="fragment fullwidth">app/views/user/register.html<code><formio src="userRegisterForm"></formio></code></pre>
+            <pre class="fragment fullwidth">app/views/movie/create.html<code><formio src="movieForm"></formio></code></pre>
+            <pre class="fragment fullwidth">app/views/director/create.html<code><formio src="directorForm"></formio></code></pre>
+        </section>
+        <section>
+            <p>Hook up <strong style="font-family: 'Comfortaa', cursive;"><span style="color:#3071a9">form</span><span style="color:#eee;">.</span><span style="color:#449d44">io</span></strong> delete pages</p>
+            <pre class="fragment fullwidth">app/views/movie/delete.html<code><formio-delete src="movieForm"></formio-delete></code></pre>
+            <pre class="fragment fullwidth">app/views/director/delete.html<code><formio-delete src="directorForm"></formio-delete></code></pre>
+        </section>
+        <section>
+            <p>Hook up <strong style="font-family: 'Comfortaa', cursive;"><span style="color:#3071a9">form</span><span style="color:#eee;">.</span><span style="color:#449d44">io</span></strong> index pages</p>
+            <pre class="fragment fullwidth">app/views/movie/index.html<code><formio-submissions src="movieForm"></formio-submissions></code></pre>
+            <pre class="fragment fullwidth">app/views/director/index.html<code><formio-submissions src="directorForm"></formio-submissions></code></pre>
+        </section>
+        <section>
+            <p>Handling I/O with the <code>Formio</code> factory</p>
+            <small><pre class="fragment fullwidth">app/scripts/app.js<code data-trim>
+.state('createMovie', {
+    url: '/create/movie',
+    templateUrl: 'views/movie/create.html',
+    controller: ['$scope', '$state', function ($scope, $state) {
+</code><code class="fragment">        $scope.$on('formSubmission', function(event, submission) {
+            $state.go('movie.view', {movieId: submission._id});
+        });
+    }]
+})</code><code class="fragment" data-trim>
+.state('movie.view', {
+    url: '/',
+    parent: 'movie',
+    templateUrl: 'views/movie/view.html',
+    controller: ['$scope', '$stateParams', 'Formio', function ($scope, $stateParams, Formio) {
+            </code><code class="fragment">        var loader = new Formio($scope.movieForm + '/submission/' + $stateParams.movieId);
+            </code><code class="fragment">        $scope.movie = {};
+        loader.loadSubmission().then(function(submission) {
+            $scope.movie = submission;
+        });
+    }]
+})
+            </code></pre></small>
+        </section>
+        <section>
+            <p>Have fun with <strong style="font-family: 'Comfortaa', cursive;"><span style="color:#3071a9">form</span><span style="color:#eee;">.</span><span style="color:#449d44">io</span></strong>!</p>
+            <p>Thank you!</p>
+        </section>
+        -->
+</div>
 </div>
 
 <script src="lib/js/head.min.js"></script>
 <script src="js/reveal.js"></script>
 
-<script>
+<script>~
 
     // Full list of configuration options available at:
     // https://github.com/hakimel/reveal.js#configuration
